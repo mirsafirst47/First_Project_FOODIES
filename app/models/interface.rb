@@ -8,8 +8,9 @@ class Interface
 
     def welcome 
         OrderHere.go
-        
-        puts "Welcome to order.buddy!".colorize(:red)
+        puts "🥗🍜😁Welcome to FOODIES😁🍜🥗"
+        system('say "Welcome to FOODIES"')
+        puts "Bet you are starving"
     end 
 
     def choose_login_or_signup

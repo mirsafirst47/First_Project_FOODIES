@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
 
 def self.register 
     userInfo = TTY::Prompt.new.ask("What is your username?")
-    passwordInfo = TTY::Prompt.new.ask("What is your password?")
+    passwordInfo = TTY::Prompt.new.mask("What is your password?")
 
     if User.find_by(name: userInfo)
         puts "Sorry, the username #{userInfo} is already taken."
