@@ -12,7 +12,7 @@ class Interface
         system('say "Welcome to FOODIES"')
         puts "Bet you are starving"
     end 
-
+#********************************login******************************>
     def choose_login_or_signup
         prompt.select("Are you logging in or registering") do |menu|
             menu.choice "Logging in", ->{user_logging_in}
@@ -34,7 +34,7 @@ class Interface
         system "clear"
         puts "Welcome to the dark side #{self.user.name}"
         prompt.select("What else can we do") do |menu|
-            menu.choice "Some choice", -> {puts "Comming soon"}
+            menu.choice "Some choice", -> {puts "Profile_method"}
             menu.choice "Start my order", -> {display_all_restaurants}
         end 
     end 
