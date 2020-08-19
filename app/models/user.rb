@@ -4,16 +4,17 @@ class User < ActiveRecord::Base
     has_many :restaurants, through: :orders
  
 
-def self.register 
-    userInfo = TTY::Prompt.new.ask("What is your username?")
-    passwordInfo = TTY::Prompt.new.mask("What is your password?")
+    def self.register
+    
+        userInfo = TTY::Prompt.new.ask("Create your username?")
+        passwordInfo = TTY::Prompt.new.mask("Enter a password?")
+        if User.find_by(name: userInfo)
+            puts "Sorry, the username #{userInfo} is already taken."
+        else 
+            User.create(name: userInfo, password: passwordInfo)
+        end 
 
-    if User.find_by(name: userInfo)
-        puts "Sorry, the username #{userInfo} is already taken."
-    else 
-        User.create(name: userInfo, password: passwordInfo)
     end 
-end 
 
 
 
