@@ -7,8 +7,21 @@ class Dish < ActiveRecord::Base
 
     def self.all_dishes 
         Dish.all.map do |dish|
-           dish_id = {"#{dish.dish_name} ............................ $#{dish.dish_price}" => dish.id}
-        # binding.pry
+          dish_id = {"#{dish.dish_name} ............................ $#{dish.dish_price}" => dish.id}
+          
         end 
     end 
+
+    def self.find_by_name(name)
+        Dish.all.find do |dish|
+            dish.dish_name == name
+            dish
+        end 
+    end 
+
+    # def self.find_by(ids)
+    #     Dish.all.select do |dish|
+    #         dish.dish_name == dish
+    # end 
+    
 end
