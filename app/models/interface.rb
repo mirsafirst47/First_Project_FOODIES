@@ -15,7 +15,7 @@ class Interface
         # OrderHere.starter
         
         puts "🥗🍜😁Welcome to FOODIES😁🍜🥗".colorize(:yellow)
-        system('say "Welcome to FOODIES"')
+        # system('say "Welcome to FOODIES"')
         puts ""
         puts "🤤🤤Bet you are starving🤤🤤".colorize(:green)
         sleep 1
