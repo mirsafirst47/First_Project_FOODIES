@@ -31,18 +31,21 @@ class Interface
 #********************************Signing Up******************************>
     def user_signing_up#works
 
-        user_signing = User.register()
+        user_signing = User.register
         until user_signing  
-            user_logged = User.register()
+            user_logged = User.register
         end 
         self.user = user_signing
         self.main_menu
     end 
 ##***************************Logging In**********************************>
 
-    def user_logging_in #need to be done
+    # def user_logging_in #need to be done
+    #     User.existing_user 
+        
+    #     self.main_menu
 
-    end
+    # end
 ##**************************Quit App**********************************>
     
     def quit_app#works
