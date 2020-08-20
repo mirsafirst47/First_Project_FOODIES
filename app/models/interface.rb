@@ -41,7 +41,7 @@ def user_signing_up#works
 ##***************************Logging In**********************************>
 
 def user_logging_in   
-    system "clear"
+    system 'clear'
     username = TTY::Prompt.new.ask("Enter your username")
     #check if the username exist on database
    potential_user = User.all.find {|name| name.name == username }
@@ -82,7 +82,7 @@ end
 
     def display_all_restaurants
         user.reload
-        system "clear"
+        system 'clear'
 
         # clear previous cart if any
         user.dishes.each {|dish| dish.destroy }
@@ -103,7 +103,7 @@ end
 
     def order_menu
         user.reload
-        system "clear"
+        system 'clear'
         puts " #{self.user.name} You have completed your first order"
         puts "Your current cart" 
         puts " #{user_dishes_names}"
@@ -118,7 +118,7 @@ end
 
     def continue_order_menu
         user.reload
-        system "clear"
+        system 'clear'
         puts " #{self.user.name} You have completed your first order"
         puts "Your current cart "
         puts " #{user_dishes_names}"
@@ -133,7 +133,7 @@ end
 
     def continue_with_order
         user.reload
-        system "clear"
+        system 'clear'
         # puts "You are here #{user_dishes_names}"
         choosen_restaurant = choosen_restaurant
         chosen_dish = prompt.select("Choose your next dish" ,Dish.all_dishes )
@@ -146,7 +146,7 @@ end
 
     def cart_checkout
         user.reload
-        system "clear"
+        system 'clear'
         puts "#{self.user.name} this is your current cart"
         puts "#{user_dishes_names}"
         prompt.select("Lets go to to your cart") do |menu|
@@ -161,7 +161,7 @@ end
 
 def review_my_cart_0
     user.reload
-    system "clear"  
+    system 'clear'
   
      dishes = user.dishes.map(&:id)
 
@@ -243,7 +243,7 @@ end
 
 def continue_removing
     user.reload
-    system "clear"
+    system 'clear'
 
 # ------------new array of dishes after the deletion----------------------
 
@@ -271,7 +271,7 @@ end
 
     def review_my_cart
         user.reload
-        system "clear"
+        system 'clear'
 
 # ------ HELPER METHODS FOR THE CART -----------------------
     # -----mapping the dishes into a hash
@@ -343,7 +343,7 @@ end
 
     def main_menu#works
         #user.reload 
-        system "clear"
+        system 'clear'
         puts "Welcome to the menu #{self.user.name}"
         prompt.select("What would you like to do") do |menu|
             menu.choice "Manage Profile", -> {profile_setup}
@@ -370,14 +370,14 @@ end
             #*************Updating Username*************>
 
     def change_username_prompt#Works
-        system "clear"
+        system 'clear'
         prompt.select("Are you sure you want to edit your username?") do |menu|
             menu.choice "Yes", -> {change_username}
             menu.choice "No", -> {profile_setup}
         end
     end
     def change_username#Works but does not update when doing User.all
-        system "clear"
+        system 'clear'
         new_username = @prompt.ask("Enter a new username", required: true)
         self.user.update_attribute(:name, new_username)
         puts "Your username has been updated!"
@@ -388,14 +388,14 @@ end
             #************Updating Password***************>
 
     def change_password_prompt#Works
-        system "clear"
+        system 'clear'
         prompt.select("Are you sure you want to edit your password?") do |menu|
             menu.choice "Yes", -> {change_password}
             menu.choice "No", -> {profile_setup}
         end
     end
     def change_password#Works but does not update when doing User.all
-        system "clear"
+        system 'clear'
         new_password = @prompt.mask("Enter a new password", required: true)
         self.user.update_attribute(:password, new_password)
         puts "Your password has been updated!"
@@ -425,7 +425,7 @@ end
             #*****************Logout***************>
 
     def log_out#Works
-        system "clear"
+        system 'clear'
         puts ""
         puts "Thank you for ordering with Foodies"
         sleep 1
