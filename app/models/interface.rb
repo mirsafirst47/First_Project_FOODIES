@@ -1,6 +1,6 @@
 class Interface
     attr_reader :prompt
-    attr_accessor :user, :restaurants, :orders, :dishes 
+    attr_accessor :user, :restaurants, :orders, :dishes
     
     def initialize
         @prompt = TTY::Prompt.new
@@ -11,9 +11,9 @@ class Interface
     end
 
     def welcome#Works
-        OrderHere.go
+        # OrderHere.go
         puts "🥗🍜😁Welcome to FOODIES😁🍜🥗".colorize(:yellow)
-        system('say "Welcome to FOODIES"')
+        # system('say "Welcome to FOODIES"')
         puts ""
         puts "🤤🤤Bet you are starving🤤🤤".colorize(:green)
         sleep 1
@@ -29,8 +29,8 @@ class Interface
         end 
     end 
 #********************************Signing Up******************************>
-    def user_signing_up#works
-
+    
+def user_signing_up#works
         user_signing = User.register
         until user_signing  
             user_logged = User.register
@@ -40,19 +40,42 @@ class Interface
     end 
 ##***************************Logging In**********************************>
 
-    # def user_logging_in #need to be done
-    #     User.existing_user 
-        
-    #     self.main_menu
+def user_logging_in   
+    system "clear"
+    username = TTY::Prompt.new.ask("Enter your username")
+    #check if the username exist on database
+   potential_user = User.all.find {|name| name.name == username }
 
-    # end
+    # def existing_user 
+    if User.all.exclude?(potential_user)
+        puts "#{username} not found in database"
+        sleep(2)
+        self.wrong_user_name  
+    else 
+        puts " #{username} You are in"
+        sleep(1)
+    
+    end 
+    potential_user
+    self.user = potential_user
+    self.main_menu
+
+end
+
+#+++++++++++++++++++++++++
+def wrong_user_name 
+
+    prompt.select("Do you want to try again?") do |menu|
+        menu.choice "yes", ->{user_logging_in}
+        menu.choice "No", ->{choose_login_or_signup}
+    end 
+end
+  
 ##**************************Quit App**********************************>
     
     def quit_app#works
         exit!
     end
-
-###**************************Main menu********************************>
 
 
 #********************************** List of all Restaurants ********>
@@ -87,7 +110,6 @@ class Interface
         prompt.select("Do you want to create another order") do |menu|
             menu.choice "Yes Please", -> {continue_with_order}
             menu.choice "No I am done", -> {review_my_cart_0}
-            # self.continue_order_menu
         end 
     end 
 
@@ -216,7 +238,6 @@ def aide_to_cart
         review_my_cart_0
     end 
 end 
-
 
 # ----------------pick another dish from the cart to remove-------------- 
 
