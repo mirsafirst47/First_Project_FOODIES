@@ -12,7 +12,8 @@ class Interface
     end
 
     def welcome #Done
-        OrderHere.go
+        # OrderHere.starter
+        
         puts "🥗🍜😁Welcome to FOODIES😁🍜🥗".colorize(:yellow)
         system('say "Welcome to FOODIES"')
         puts ""
@@ -277,6 +278,7 @@ class Interface
     def review_my_cart
         user.reload
         system "clear"
+
         # ------ HELPER METHODS FOR THE CART -----------------------
         # -----mapping the dishes into a hash
         dishes_hash = user.dishes.map do |dish|
@@ -292,6 +294,8 @@ class Interface
         gratuity = subtotal * 0.2
         # ----------------BODY OF THE RECEIPT-------------------------------------
         system "clear"
+        OrderHere.go
+
         sleep 0.5
         puts " "
         puts "       🥗🍜😁Welcome to FOODIES😁🍜🥗   " 
