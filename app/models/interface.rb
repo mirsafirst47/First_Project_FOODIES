@@ -10,7 +10,7 @@ class Interface
     def run
         welcome
     end
-
+    
     def welcome #Done
         OrderHere.go
         puts "🥗🍜😁Welcome to FOODIES😁🍜🥗".colorize(:yellow)
@@ -82,7 +82,7 @@ class Interface
     def main_menu #Done
         system "clear"
         puts "<******************************||".colorize(:green)
-        puts "    ~~~ M A I N - M E N U ~~~    ".colorize(:orange)
+        puts "    ~~~ M A I N - M E N U ~~~    ".colorize(:blue)
         puts "||******************************>".colorize(:green)
         puts ""
         puts " Welcome to the menu ~ #{self.user.name} ~ "
@@ -115,12 +115,12 @@ class Interface
         # clear previous cart if any
         user.dishes.each {|dish| dish.destroy }
         system "clear"
-        pick_a_restaurant = prompt.select("Choose a Restaurant to start your order", Restaurant.list)
+        pick_a_restaurant = prompt.select(" Please choose a restaurant to start your order", Restaurant.list)
         system "clear"
         @choosen_restaurant = Restaurant.find(pick_a_restaurant)
         system "clear"
         #----Dishes for the curent user --------
-        chosen_dish = prompt.select("Choose your first dish" ,Dish.all_dishes )
+        chosen_dish = prompt.select("Choose your dish" ,Dish.all_dishes )
         system "clear"
         #___Create a new Order using the options from the current user ______
         Order.create(user_id: self.user.id, dish_id: chosen_dish, restaurant_id: @choosen_restaurant)
@@ -133,11 +133,11 @@ class Interface
     def order_menu
         user.reload
         system "clear"
-        puts " #{self.user.name} you have completed your first order"
+        puts " #{self.user.name} you have completed your order"
         puts "Your current cart" 
         puts " #{user_dishes_names}"
         system "clear"
-        prompt.select("Do you want to create another order") do |menu|
+        prompt.select("Would you like to add another dish?") do |menu|
             menu.choice "Yes Please", -> {continue_with_order}
             menu.choice "No I am done", -> {review_my_cart_0}
         end 
@@ -149,11 +149,11 @@ class Interface
     def continue_order_menu
         user.reload
         system "clear"
-        puts " #{self.user.name} You have completed your first order"
+        puts " #{self.user.name} You have completed your order"
         puts "Your current cart"
         puts " #{user_dishes_names}"
         system "clear"
-        prompt.select("Do you want to create another order") do |menu|
+        prompt.select("Would you like to add another dish?") do |menu|
             menu.choice "Yes Please", -> {continue_with_order}
             menu.choice "No I am done", -> {cart_checkout}
         end 
@@ -207,13 +207,13 @@ class Interface
         puts ""
         puts "-----------------------------------------------"
         puts ""
-        proceed_to_checkout = prompt.yes?("I am happy with the order, let's checkout")
+        proceed_to_checkout = prompt.yes?("The order looks good, go to checkout")
         # USER IS HAPPY WITH THE ORDER, READY TO CHECKOUT
         if proceed_to_checkout
             review_my_cart 
         end
-        cart = prompt.select("Lets Review your cart" ,dishes_hash )
-        remove_a_dish = prompt.yes?("Do you want to remove this dish?")
+        cart = prompt.select("Review your cart" ,dishes_hash )
+        remove_a_dish = prompt.yes?("Would you like to remove this dish?")
         dish_on_cart = Dish.find(cart)
         # ---------CONDITIONS WHEN REVIEWING THE CART ---------------------------------
         # IF THE CART HAS ONLY ONE ORDER AND DESTROYING AN ORDER
@@ -260,13 +260,13 @@ class Interface
         dishes_hash_2 = user.dishes.map do |dish|
             { "#{dish.dish_name}  $#{dish.dish_price}" => dish.id }
         end  
-        cart = prompt.select("Do you want to remove another dish?" ,dishes_hash_2 )
-        prompt.yes?("Do you want to remove this dish?")
+        cart = prompt.select("Would you like to remove a dish?" ,dishes_hash_2 )
+        prompt.yes?("Remove this dish?")
         # getting the name of the dish 
         Order.find(cart).destroy
         Dish.find(cart).destroy
         # binding.pry
-        prompt.select("Do you want to remove another dish?") do |menu|
+        prompt.select("Would you like to remove another dish?") do |menu|
             menu.choice "Yes", -> {continue_removing}
             menu.choice "No, I am ready to checkout", -> {review_my_cart}
         end
@@ -313,10 +313,10 @@ class Interface
         puts ""
         puts '----------------------------------------------'
         puts "We appreciate your bussiness #{self.user.name}"
-        puts "       Come again please       "
+        puts "       Please come again        "
         puts "
         "
-        prompt.select("We hope you enjoyed your order") do |menu|
+        prompt.select("We hope you enjoy your order") do |menu|
             puts ""
             menu.choice "Main menu", -> {main_menu}
             menu.choice "Place another order", -> {display_all_restaurants}
@@ -328,7 +328,7 @@ class Interface
 
     def user_dishes_names
         user.dishes.map do |dish|
-            "#{dish.dish_name} $#{dish.dish_price} "
+            "#{dish.dish_name} - $#{dish.dish_price} "
         end 
     end 
 
@@ -336,7 +336,7 @@ class Interface
     #*************Updating Username*************>
 
     def change_username_prompt#Works
-        prompt.select("Are you sure you want to edit your username?") do |menu|
+        prompt.select("Please confirm you are editing your username") do |menu|
             menu.choice "Yes", -> {change_username}
             menu.choice "No", -> {profile_setup}
         end
@@ -355,7 +355,7 @@ class Interface
     #************Updating Password***************>
 
     def change_password_prompt #Done
-        prompt.select("Are you sure you want to edit your password?") do |menu|
+        prompt.select("Please confirm you are editing your password") do |menu|
             menu.choice "Yes", -> {change_password}
             menu.choice "No", -> {profile_setup}
         end
