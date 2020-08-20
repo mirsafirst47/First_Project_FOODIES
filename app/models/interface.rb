@@ -30,6 +30,7 @@ class Interface
     end 
 #********************************Signing Up******************************>
     def user_signing_up#works
+
         user_signing = User.register()
         until user_signing  
             user_logged = User.register()
@@ -54,18 +55,23 @@ class Interface
 #********************************** List of all Restaurants ********>
 
     def display_all_restaurants
+        user.reload
+        system "clear"
+
+        # clear previous cart if any
+        user.dishes.each {|dish| dish.destroy }
+
         pick_a_restaurant = prompt.select("Choose a Restaurant to start your order" ,Restaurant.list)
             @choosen_restaurant = Restaurant.find(pick_a_restaurant)
             
     # ----Dishes for the curent user --------
-      
         chosen_dish = prompt.select("Choose your first dish" ,Dish.all_dishes )
 
     # ___Create a new Order using the options from the current user ______
         Order.create(user_id: self.user.id, dish_id: chosen_dish, restaurant_id: @choosen_restaurant)
         self.order_menu
-    end 
 
+    end 
 
 #************************************** Order Menu  *******************************>
 
@@ -73,22 +79,24 @@ class Interface
         user.reload
         system "clear"
         puts " #{self.user.name} You have completed your first order"
-        puts "you have added #{user_dishes_names}"
+        puts "Your current cart" 
+        puts " #{user_dishes_names}"
         prompt.select("Do you want to create another order") do |menu|
             menu.choice "Yes Please", -> {continue_with_order}
-            menu.choice "No I am done", -> {puts "exit"}
+            menu.choice "No I am done", -> {review_my_cart_0}
             # self.continue_order_menu
         end 
     end 
 
 
-# #************************************** Continue with your order  *******************************>
+#************************************** Continue with your order  *******************************>
 
     def continue_order_menu
         user.reload
         system "clear"
         puts " #{self.user.name} You have completed your first order"
-        puts "you have added #{user_dishes_names}"
+        puts "Your current cart "
+        puts " #{user_dishes_names}"
         prompt.select("Do you want to create another order") do |menu|
             menu.choice "Yes Please", -> {continue_with_order}
             menu.choice "No I am done", -> {cart_checkout}
@@ -96,13 +104,12 @@ class Interface
     end 
         
         
-
 #************************* Continue adding to the order  *************************>
 
     def continue_with_order
         user.reload
         system "clear"
-        puts "You are here #{user_dishes_names}"
+        # puts "You are here #{user_dishes_names}"
         choosen_restaurant = choosen_restaurant
         chosen_dish = prompt.select("Choose your next dish" ,Dish.all_dishes )
 
@@ -115,7 +122,8 @@ class Interface
     def cart_checkout
         user.reload
         system "clear"
-        puts "You are here #{user_dishes_names}"
+        puts "#{self.user.name} this is your current cart"
+        puts "#{user_dishes_names}"
         prompt.select("Lets go to to your cart") do |menu|
             menu.choice "No, I meant to add another dish to my cart", -> {continue_with_order}
             menu.choice "Sure, lets go to cart", -> {review_my_cart_0}
@@ -128,59 +136,111 @@ class Interface
 
 def review_my_cart_0
     user.reload
-    system "clear"
-
-    dishes = user.dishes.map(&:id)
+    system "clear"  
+  
+     dishes = user.dishes.map(&:id)
 
     dishes_hash = user.dishes.map do |dish|
        { "#{dish.dish_name}  $#{dish.dish_price}" => dish.id }
     end  
 
 #   ------Reviewing my cart and choosing to remove dishes if I want to-------------- 
-    cart = prompt.select("Review your cart" ,dishes_hash )
-    prompt.yes?("Do you want to remove this dish?")
+    display_my_cart = user.dishes.map do |dishes|
+                    "#{dishes.dish_name} -- $ #{dishes.dish_price}"
+                    end 
 
- 
-    Order.find(cart).destroy
-    Dish.find(cart).destroy
-    # binding.pry
-    prompt.select("Do you want to remove another dish?") do |menu|
-        menu.choice "Yes", -> {continue_removing}
-        menu.choice "No, I am ready for checkout now", -> {review_my_cart}
+
+    # -------- preview my cart -------------
+    puts "Hey #{self.user.name} this is your current cart"
+    puts "----------------------------------------------"
+    puts ""
+    puts display_my_cart
+    puts ""
+    puts "-----------------------------------------------"
+    puts ""
+
+    proceed_to_checkout = prompt.yes?("I am happy with the order, let's checkout")
+    # USER IS HAPPY WITH THE ORDER, READY TO CHECKOUT
+    if proceed_to_checkout
+        review_my_cart 
+    end 
+
+    cart = prompt.select("Lets Review your cart" ,dishes_hash )
+    remove_a_dish = prompt.yes?("Do you want to remove this dish?")
+
+    dish_on_cart = Dish.find(cart)
+    
+    
+# ---------CONDITIONS WHEN REVIEWING THE CART ---------------------------------
+
+# IF THE CART HAS ONLY ONE ORDER AND DESTROYING AN ORDER
+    if remove_a_dish == true && user.dishes.count < 2
+
+        # -----helper - methods------------
+        orderId = dish_on_cart.id 
+        def find_dish_by(dish_id)
+            user.orders.find {|dish| dish.dish_id == dish_id}
+        end
+        
+        dish_to_destroy = find_dish_by(orderId).destroy
+        
+# IF THE CART HAS MORE THAN ONE ORDER AND DESTROYING AN ORDER
+    # user.orders
+            aide_to_cart
+        elsif remove_a_dish == true && user.dishes.count > 1
+            orderId = dish_on_cart.id 
+            def find_dish_by(dish_id)
+                user.orders.find {|dish| dish.dish_id == dish_id}        
+            end
+
+            dish_to_destroy = find_dish_by(orderId).destroy
+
+            review_my_cart_0
+
+ # NO ORDER DESTRUCTION 
+        else
+            review_my_cart 
+        end 
     end
+
+#**************** WHEN CART EMPTY - SEND ME BACK TO ALL RESTAURANTS ************
+
+def aide_to_cart
+    # binding.pry
+    if dishes == nil
+        display_all_restaurants
+    else
+        review_my_cart_0
+    end 
 end 
 
 
-#   ----------------pick another dish from the cart to remove-------------- 
+# ----------------pick another dish from the cart to remove-------------- 
 
 def continue_removing
     user.reload
     system "clear"
 
-# ------------new array of dishes after the deletion-----        
+# ------------new array of dishes after the deletion----------------------
+
     dishes_hash_2 = user.dishes.map do |dish|
         { "#{dish.dish_name}  $#{dish.dish_price}" => dish.id }
      end  
 
-
-cart = prompt.select("Do you want to remove another dish?" ,dishes_hash_2 )
-prompt.yes?("Do you want to remove this dish?")
+    cart = prompt.select("Do you want to remove another dish?" ,dishes_hash_2 )
+    prompt.yes?("Do you want to remove this dish?")
 
 # getting the name of the dish 
     Order.find(cart).destroy
     Dish.find(cart).destroy
     
-
 # binding.pry
-prompt.select("Do you want to remove another dish?") do |menu|
-    menu.choice "Yes", -> {continue_removing}
-    menu.choice "No, I am ready for checkout now", -> {review_my_cart}
-end
+    prompt.select("Do you want to remove another dish?") do |menu|
+        menu.choice "Yes", -> {continue_removing}
+        menu.choice "No, I am ready for checkout now", -> {review_my_cart}
+    end
 
 end 
-
-
-
 
     
 #********************review my cart **********************************>
@@ -230,8 +290,18 @@ end
         puts "
         "
         puts '----------------------------------------------'
-        puts "We appreciate your bussiness, come again please"
+        puts "We appreciate your bussiness #{self.user.name}"
+        puts "            Come again please"
         # binding.pry
+
+        puts "
+        
+        "
+
+        prompt.select("We hope you enjoyed your order") do |menu|
+            menu.choice "Quit the app", -> {quit_app}
+            menu.choice "I want to place one more order", -> {display_all_restaurants}
+        end
 
 
     end 
@@ -240,9 +310,8 @@ end
 
     def user_dishes_names
         user.dishes.map do |dish|
-            "#{dish.dish_name} #{dish.dish_price} "
+            "#{dish.dish_name} $#{dish.dish_price} "
         end 
-        # user.dishes.map(&:dish_name)
     end 
 
 
@@ -271,16 +340,6 @@ end
         end
         sleep 1
     end
-
-    # def display_all_restaurants#works
-    #     choosen_restaurant_id = prompt.select("Choose a Restaurant to start your order" ,Restaurant.list)
-        
-    #     choosen_restaurant = Restaurant.find(choosen_restaurant_id)
-    #     dishes = choosen_restaurant.dishes
-    #     dishes
-    #     prompt.select("Choose your dish" ,Dish.all_dishes)
-    # end
-
     
 
 ####***********************Updating Porfile Infos********************************>

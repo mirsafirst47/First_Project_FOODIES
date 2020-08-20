@@ -19,9 +19,4 @@ class Dish < ActiveRecord::Base
         end 
     end 
 
-    # def self.find_by(ids)
-    #     Dish.all.select do |dish|
-    #         dish.dish_name == dish
-    # end 
-    
 end
