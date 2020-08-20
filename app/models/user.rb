@@ -3,7 +3,6 @@ class User < ActiveRecord::Base
     has_many :orders
     has_many :dishes, through: :orders
     has_many :restaurants, through: :orders
- 
 
     def self.register
         system "clear"
@@ -16,6 +15,7 @@ class User < ActiveRecord::Base
         end 
     end 
 
+end
 
     # def self.existing_user 
     #     system "clear"
@@ -27,7 +27,6 @@ class User < ActiveRecord::Base
     #     if User.all.exclude?(potential_user)
     #         puts "#{username} not found in database"
     #         sleep(2)
-           
     #         Interface.user_signing_up   
     #         # end 
     #         # Interface.quit_app
@@ -44,4 +43,3 @@ class User < ActiveRecord::Base
     #     potential_user
     # end
 
-end

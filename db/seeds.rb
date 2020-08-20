@@ -22,7 +22,7 @@ Restaurant.destroy_all
 
 100.times do
     Dish.create(
-        dish_name: Faker::Food.dish,
+        dish_name: Faker::Food.unique.dish,
         dish_price: Faker::Commerce.price(range: 0..15.0, as_string: true),  
         restaurant_id: Faker::Number.within(range: 1..10)
     )

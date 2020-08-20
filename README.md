@@ -1,7 +1,7 @@
 <h1>FOODIES CLI APP</h1>
 
 
-HOW TO GET STARTED
+<h4>HOW TO GET STARTED</h4>
 
 1. Clone this repository to your computer.
 2. In your computer terminal, CD into the directory of this repository.
@@ -14,7 +14,7 @@ HOW TO GET STARTED
 
 
 
-HOW TO USE THE APP
+<H4>HOW TO USE THE APP</H4>
 
 1. Upon launching the application, the user will be prompted to login or sign up for a new account.
 2. For returning users, welcome back, and follow the login steps and enjoy the app.
@@ -34,6 +34,3 @@ HOW TO USE THE APP
         - before checking out the user have the possibility to delete items selected or checkout 
         - after checkout the user will see a receipt with all the oders placed,the total amount of their purchase, and be prompted to go back to the main menu, place another order, or leave the app
    - The option to exit the app
-
-
- 
