@@ -9,7 +9,6 @@ end
 
 desc 'start application'
 task :start do
- 
   variable = Interface.new
   variable.run
 end
