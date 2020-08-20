@@ -1,4 +1,4 @@
-FOODIES CLI APP
+<h1>FOODIES CLI APP</h1>
 
 
 HOW TO GET STARTED
@@ -31,8 +31,8 @@ HOW TO USE THE APP
         - select a restaurant and see the full menu of that specific restaurant
         - select from the menu the dish(es) they would like to add  to the cart
         - review the the selcted dish(es) with option to add more or go to checkout
-        - before checking out the user have the possibility to delete items selcted or checkout 
-        - after checkout the user will see a receipt with all the oders placed,the total amount of their puschase, and be prompted to go back to the main menu, place another order, or leave tha app
+        - before checking out the user have the possibility to delete items selected or checkout 
+        - after checkout the user will see a receipt with all the oders placed,the total amount of their purchase, and be prompted to go back to the main menu, place another order, or leave the app
    - The option to exit the app
 
 
