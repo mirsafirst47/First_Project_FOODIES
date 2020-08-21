@@ -366,7 +366,7 @@ class Interface
         dish_array = dishes_id.map {|dish| "#{dish.dish_name} -- $#{dish.dish_price}"}
         
         if user.orders.count > 0            
-          last_dish = prompt.select(" Dishes you have ordered before", dish_array)
+            last_dish = prompt.select(" Dishes you have ordered before", dish_array)
         else 
             puts "Your history is empty"
         sleep (2)

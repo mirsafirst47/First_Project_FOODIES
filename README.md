@@ -42,3 +42,8 @@ This app was developed for Flatiron School’s mod1 pairing project to demonstra
         - before checking out the user have the possibility to delete items selected or checkout 
         - after checkout the user will see a receipt with all the oders placed,the total amount of their purchase, and be prompted to go back to the main menu, place another order, or leave the app
    - The option to exit the app
+
+<h3>Creators</h3>
+
+Franklin Bado https://github.com/fbado66
+Samir Triande https://github.com/mirsafirst47
