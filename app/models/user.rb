@@ -18,29 +18,4 @@ class User < ActiveRecord::Base
 
 end
 
-    # def self.existing_user 
-    #     system "clear"
-    #     username = TTY::Prompt.new.ask("Enter your username")
-    #     #check if the username exist on database
-    #    potential_user = User.all.find {|name| name.name == username }
-    # #    binding.pry
-        
-    #     if User.all.exclude?(potential_user)
-    #         puts "#{username} not found in database"
-    #         sleep(2)
-    #         Interface.user_signing_up   
-    #         # end 
-    #         # Interface.quit_app
-
-
-    #     else 
-        
-    #         puts " #{username} You are in"
-    #         potential_user
-    #         # binding.pry
-    #         sleep(1)
-        
-    #     end 
-    #     potential_user
-    # end
-
+   

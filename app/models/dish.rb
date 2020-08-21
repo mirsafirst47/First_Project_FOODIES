@@ -19,4 +19,10 @@ class Dish < ActiveRecord::Base
         end 
     end 
 
+    # def self.user_dishes 
+    #     user.dishes.map do |dish|
+    #         "#{dish.dish_name} ....... from #{dish.restaurant.id.name} "
+    #     end 
+    # end 
+
 end

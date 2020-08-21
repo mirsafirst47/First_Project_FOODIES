@@ -12,7 +12,7 @@ class Interface
     end
     
     def welcome #Done
-        system('say "Welcome to FOODIES"')
+        # system('say "Welcome to FOODIES"')
         OrderHere.starter
         
         puts "🥗🍜😁Welcome to FOODIES😁🍜🥗".colorize(:yellow)
@@ -56,11 +56,11 @@ class Interface
         potential_user = User.all.find {|name| name.name == username }
         # def existing_user 
         if User.all.exclude?(potential_user)
-            puts "#{username} not found in database"
+            puts "We didn't find #{username} in our database"
             sleep(2)
             self.wrong_user_name  
         else 
-            puts " #{username} You are in"
+            puts "Welcome back #{username} "
             sleep(1)
         end 
         potential_user
@@ -97,6 +97,7 @@ class Interface
         prompt.select("What would you like to do") do |menu|
             menu.choice "Manage Profile", -> {profile_setup}
             menu.choice "Start My Order", -> {display_all_restaurants}
+            menu.choice "Last Dishes history", ->{user_dishes_history}
             menu.choice "Exit", -> {choose_login_or_signup}
         end
     end 
@@ -321,7 +322,8 @@ class Interface
         puts "    We are located in the Avatar Kingdom "
         puts "          www.TheCodeBenders.com"
         puts " "
-        puts " You placed your order at #{@choosen_restaurant.name.upcase} Restaurant "
+        puts "              #{@choosen_restaurant.name.upcase} Restaurant".colorize(:yellow)
+        puts "           is in charge of your order"
         puts " "
         puts "********************************************"
         puts "Quantity                   Dish"
@@ -335,8 +337,9 @@ class Interface
         puts " Gratuity 😁 = $#{gratuity.round(2)}"
         puts ""
         puts '----------------------------------------------'
-        puts "We appreciate your bussiness #{self.user.name}"
-        puts "       Please come again        "
+        puts "      We appreciate your bussiness"
+        puts "             #{self.user.name}".colorize(:yellow)
+        puts "         Please come again"
         puts "
         "
         prompt.select("We hope you enjoy your order") do |menu|
@@ -346,6 +349,31 @@ class Interface
             menu.choice "Quit the app", -> {quit_app}
         end
     end 
+
+    # ____________________________________________________________________
+    
+    def user_dishes_history
+        user.reload
+        system 'clear'
+        OrderHere.header 
+        
+        # Note: I could show dishes in all history, but since I am seeding the dishes with Faker gem, 
+        # everytime I place a new order, I only have access to those dishes Id. - Scope problem -
+        # orders_id = user.orders.map(&:id)
+
+        orders_id = user.dishes.map(&:id)
+        dishes_id = Dish.find(orders_id)
+        dish_array = dishes_id.map {|dish| "#{dish.dish_name} -- $#{dish.dish_price}"}
+        
+        if user.orders.count > 0            
+          last_dish = prompt.select(" Dishes you have ordered before", dish_array)
+        else 
+            puts "Your history is empty"
+        sleep (2)
+        end 
+        self.main_menu
+    end 
+
 
 #--------------------HELPER METHOD -------------------------------------->
 
