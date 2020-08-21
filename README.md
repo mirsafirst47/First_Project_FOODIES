@@ -45,5 +45,5 @@ This app was developed for Flatiron School’s mod1 pairing project to demonstra
 
 <h3>Creators</h3>
 
-Franklin Bado https://github.com/fbado66
+Franklin Bado https://github.com/fbado66<br>
 Samir Triande https://github.com/mirsafirst47
