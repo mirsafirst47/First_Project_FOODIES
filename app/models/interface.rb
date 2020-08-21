@@ -12,7 +12,7 @@ class Interface
     end
     
     def welcome #Done
-        # system('say "Welcome to FOODIES"')
+        system('say "Welcome to FOODIES"')
         OrderHere.starter
         
         puts "🥗🍜😁Welcome to FOODIES😁🍜🥗".colorize(:yellow)
@@ -97,7 +97,7 @@ class Interface
         prompt.select("What would you like to do") do |menu|
             menu.choice "Manage Profile", -> {profile_setup}
             menu.choice "Start My Order", -> {display_all_restaurants}
-            menu.choice "Last Dishes history", ->{user_dishes_history}
+            menu.choice "Last Dish ordered", ->{user_dishes_history}
             menu.choice "Exit", -> {choose_login_or_signup}
         end
     end 
@@ -360,7 +360,7 @@ class Interface
         # Note: I could show dishes in all history, but since I am seeding the dishes with Faker gem, 
         # everytime I place a new order, I only have access to those dishes Id. - Scope problem -
         # orders_id = user.orders.map(&:id)
-
+        # binding.pry
         orders_id = user.dishes.map(&:id)
         dishes_id = Dish.find(orders_id)
         dish_array = dishes_id.map {|dish| "#{dish.dish_name} -- $#{dish.dish_price}"}
