@@ -67,7 +67,7 @@ def self.frame_two
                                                   
                                                   
           ` ```````` ` ``` `` `                   
-"
+".colorize(:yellow)
     sleep(0.09)
     system 'clear'
     end 
@@ -139,7 +139,7 @@ def self.frame_four
                  `..  `-`    .- `.-`              
                  .`  `-       `...                
           ` ``````...-` ````` `      
-          ".colorize(:blue)             
+          ".colorize(:yellow)             
     sleep(0.09)
     system 'clear'
     end 
@@ -211,7 +211,7 @@ def self.frame_six
                                                   
                                                   
          `` ``` ```` ` `````` `                   
-    ".colorize(:blue)
+    ".colorize(:yellow)
     sleep(0.09)
     system 'clear'
     end 
@@ -284,7 +284,7 @@ def self.frame_eight
                        -.   `-`                   
           ` `````````` `....-``                   
 
-    ".colorize(:blue)
+    ".colorize(:yellow)
     sleep(0.09)
     system 'clear'
     end 
@@ -356,7 +356,7 @@ def self.frame_ten
                                                   
                                                   
           ` `````````` ``` `` `                   
-    ".colorize(:blue)
+    ".colorize(:yellow)
     sleep(0.09)
     system 'clear'
     end 
@@ -392,7 +392,7 @@ def self.frame_eleven
                      `.:`    -`                   
                        ..```-`                    
          ``````````` ` ``..`` `                   
-    ".colorize(:blue)
+    ".colorize(:yellow)
     sleep(0.09)
     system 'clear'
     end 
@@ -465,7 +465,7 @@ def self.frame_thirteen
                                                   
                                                   
          `` ``` ````````````` `                      
-    ".colorize(:blue)
+    ".colorize(:yellow)
     sleep(0.09)
     system 'clear'
     end 
@@ -537,7 +537,7 @@ def self.frame_fifteen
                 .-.-.`       -`  `..              
                    `         `-..-`               
           ` `````  ` ````````                     
-    ".colorize(:blue)
+    ".colorize(:yellow)
     sleep(0.09)
     system 'clear'
     end 
@@ -579,7 +579,63 @@ def self.frame_sixteen
     system 'clear'
     end 
 
+    def self.entrance_1
+    puts "
+
+      █████╗  ██║   ██║██║   ██║██║  ██║██║█████╗  ███████╗
+      ██╔══╝  ██║   ██║██║   ██║██║  ██║██║██╔══╝  ╚════██║
+
+    ".colorize(:yellow)
+    sleep(0.8)
+    system 'clear'
+    end 
+
+    def self.entrance_2
+      puts "
+
+        ██╔════╝██╔═══██╗██╔═══██╗██╔══██╗██║██╔════╝██╔════╝
+        █████╗  ██║   ██║██║   ██║██║  ██║██║█████╗  ███████╗
+        ██╔══╝  ██║   ██║██║   ██║██║  ██║██║██╔══╝  ╚════██║
+        ██║     ╚██████╔╝╚██████╔╝██████╔╝██║███████╗███████║
+
+      ".colorize(:yellow)
+      sleep(0.8)
+      system 'clear'
+    end 
+
+def self.entrance_3
+  puts "
+
+  ███████╗ ██████╗  ██████╗ ██████╗ ██╗███████╗███████╗
+  ██╔════╝██╔═══██╗██╔═══██╗██╔══██╗██║██╔════╝██╔════╝
+  █████╗  ██║   ██║██║   ██║██║  ██║██║█████╗  ███████╗
+  ██╔══╝  ██║   ██║██║   ██║██║  ██║██║██╔══╝  ╚════██║
+  ██║     ╚██████╔╝╚██████╔╝██████╔╝██║███████╗███████║
+  ╚═╝      ╚═════╝  ╚═════╝ ╚═════╝ ╚═╝╚══════╝╚══════╝
+
+".colorize(:yellow)
+sleep(0.8)
+system 'clear'
+end 
+
+  def self.header
+    puts "
+
+      ███████╗ ██████╗  ██████╗ ██████╗ ██╗███████╗███████╗
+      ██╔════╝██╔═══██╗██╔═══██╗██╔══██╗██║██╔════╝██╔════╝
+      █████╗  ██║   ██║██║   ██║██║  ██║██║█████╗  ███████╗
+      ██╔══╝  ██║   ██║██║   ██║██║  ██║██║██╔══╝  ╚════██║
+      ██║     ╚██████╔╝╚██████╔╝██████╔╝██║███████╗███████║
+      ╚═╝      ╚═════╝  ╚═════╝ ╚═════╝ ╚═╝╚══════╝╚══════╝
+
+  ".colorize(:yellow)
+  end 
                     
+    def self.animation_starter
+          OrderHere.entrance_1
+          OrderHere.entrance_2
+          OrderHere.entrance_3
+    end 
 
     def self.animation
         2.times do
@@ -606,6 +662,11 @@ def self.frame_sixteen
         puts "\n\n LET'S PLACE THAT ORDER \n\n"
         self.animation
     end 
+
+    def self.starter
+      system 'clear'
+      self.animation_starter
+  end 
 
 
 

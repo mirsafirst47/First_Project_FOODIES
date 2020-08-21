@@ -12,9 +12,10 @@ class Interface
     end
     
     def welcome #Done
-        OrderHere.go
-        puts "🥗🍜😁Welcome to FOODIES😁🍜🥗".colorize(:yellow)
         system('say "Welcome to FOODIES"')
+        OrderHere.starter
+        
+        puts "🥗🍜😁Welcome to FOODIES😁🍜🥗".colorize(:yellow)
         puts ""
         puts "🤤🤤Bet you are starving🤤🤤".colorize(:green)
         sleep 1
@@ -27,6 +28,7 @@ class Interface
         puts ""
         puts "🤤🤤Bet you are starving🤤🤤".colorize(:green)
         puts ""
+        OrderHere.header
         prompt.select("Are you logging in or signing up") do |menu|
             menu.choice "Sign up", ->{user_signing_up}
             menu.choice "Log in", ->{user_logging_in}
@@ -36,6 +38,7 @@ class Interface
 #*********************Signing Up - Logging In*******************>
     
     def user_signing_up#works
+        # OrderHere.header
         user_signing = User.register
         until user_signing  
             user_logged = User.register
@@ -47,6 +50,7 @@ class Interface
 
     def user_logging_in   
         system "clear"
+        OrderHere.header
         username = TTY::Prompt.new.ask("Enter your username")
         #check if the username exist on database
         potential_user = User.all.find {|name| name.name == username }
@@ -65,6 +69,8 @@ class Interface
     end
 
     def wrong_user_name 
+        system 'clear'
+        OrderHere.header
         prompt.select("Do you want to try again?") do |menu|
             menu.choice "yes", ->{user_logging_in}
             menu.choice "No", ->{choose_login_or_signup}
@@ -81,6 +87,7 @@ class Interface
 
     def main_menu #Done
         system "clear"
+        OrderHere.header
         puts "<******************************||".colorize(:green)
         puts "    ~~~ M A I N - M E N U ~~~    ".colorize(:blue)
         puts "||******************************>".colorize(:green)
@@ -96,6 +103,7 @@ class Interface
 
     def profile_setup #Done
         system 'clear'
+        OrderHere.header
         puts "This Is ~ #{self.user.name} ~ Profile"
         @prompt.select("~~ M Y - P R O F I L E ~~") do |menu|
             menu.choice "Update Username", -> {change_username_prompt}
@@ -112,19 +120,17 @@ class Interface
     def display_all_restaurants
         user.reload
         system "clear"
+        OrderHere.header
         # clear previous cart if any
         user.dishes.each {|dish| dish.destroy }
-        system "clear"
         pick_a_restaurant = prompt.select(" Please choose a restaurant to start your order", Restaurant.list)
-        system "clear"
         @choosen_restaurant = Restaurant.find(pick_a_restaurant)
-        system "clear"
         #----Dishes for the curent user --------
+        system 'clear'
+        OrderHere.header
         chosen_dish = prompt.select("Choose your dish" ,Dish.all_dishes )
-        system "clear"
         #___Create a new Order using the options from the current user ______
         Order.create(user_id: self.user.id, dish_id: chosen_dish, restaurant_id: @choosen_restaurant)
-        system "clear"
         self.order_menu
     end 
 
@@ -132,12 +138,12 @@ class Interface
 
     def order_menu
         user.reload
-        system "clear"
         puts " #{self.user.name} you have completed your order"
+        system 'clear'
+        OrderHere.header
         puts "Your current cart" 
-        puts " #{user_dishes_names}"
-        system "clear"
-        prompt.select("Would you like to add another dish?") do |menu|
+        puts " #{user_dishes_names}"  
+        prompt.select("Would you like to add another dish?") do |menu|      
             menu.choice "Yes Please", -> {continue_with_order}
             menu.choice "No I am done", -> {review_my_cart_0}
         end 
@@ -148,11 +154,11 @@ class Interface
 
     def continue_order_menu
         user.reload
-        system "clear"
         puts " #{self.user.name} You have completed your order"
+        system 'clear'
+        OrderHere.header
         puts "Your current cart"
         puts " #{user_dishes_names}"
-        system "clear"
         prompt.select("Would you like to add another dish?") do |menu|
             menu.choice "Yes Please", -> {continue_with_order}
             menu.choice "No I am done", -> {cart_checkout}
@@ -163,11 +169,17 @@ class Interface
 
     def continue_with_order
         user.reload
-        system "clear"
+        system 'clear'
+        OrderHere.header
+        puts ""
+        puts "Your current cart"
+        puts " #{user_dishes_names}"
+        puts ""
+        
         # puts "You are here #{user_dishes_names}"
         choosen_restaurant = choosen_restaurant
         chosen_dish = prompt.select("Choose your next dish" ,Dish.all_dishes )
-        system "clear"
+        
         Order.create(user_id: self.user.id, dish_id: chosen_dish, restaurant_id: choosen_restaurant)
         self.continue_order_menu
     end 
@@ -177,6 +189,7 @@ class Interface
     def cart_checkout
         user.reload
         system "clear"
+        OrderHere.header
         puts "#{self.user.name} this is your current cart"
         puts "#{user_dishes_names}"
         prompt.select("Lets go to to your cart") do |menu|
@@ -191,11 +204,14 @@ class Interface
     def review_my_cart_0
         user.reload
         system "clear"  
+        OrderHere.header
         dishes = user.dishes.map(&:id)
         dishes_hash = user.dishes.map do |dish|
         { "#{dish.dish_name}  $#{dish.dish_price}" => dish.id }
         end  
         #------Reviewing my cart and choosing to remove dishes if I want to-------------- 
+        system 'clear'
+        OrderHere.header
         display_my_cart = user.dishes.map do |dishes|
             "#{dishes.dish_name} -- $ #{dishes.dish_price}"
         end 
@@ -256,6 +272,8 @@ class Interface
     def continue_removing
         user.reload
         system "clear"
+        OrderHere.header
+
         # ------------new array of dishes after the deletion----------------------
         dishes_hash_2 = user.dishes.map do |dish|
             { "#{dish.dish_name}  $#{dish.dish_price}" => dish.id }
@@ -277,6 +295,8 @@ class Interface
     def review_my_cart
         user.reload
         system "clear"
+        OrderHere.header
+
         # ------ HELPER METHODS FOR THE CART -----------------------
         # -----mapping the dishes into a hash
         dishes_hash = user.dishes.map do |dish|
@@ -292,7 +312,10 @@ class Interface
         gratuity = subtotal * 0.2
         # ----------------BODY OF THE RECEIPT-------------------------------------
         system "clear"
+        OrderHere.go
+
         sleep 0.5
+        OrderHere.header
         puts " "
         puts "       🥗🍜😁Welcome to FOODIES😁🍜🥗   " 
         puts "    We are located in the Avatar Kingdom "
@@ -336,6 +359,8 @@ class Interface
     #*************Updating Username*************>
 
     def change_username_prompt#Works
+        system 'clear'
+        OrderHere.header
         prompt.select("Please confirm you are editing your username") do |menu|
             menu.choice "Yes", -> {change_username}
             menu.choice "No", -> {profile_setup}
@@ -344,9 +369,9 @@ class Interface
 
     def change_username
         system "clear"
+        OrderHere.header
         new_username = @prompt.ask("Enter a new username", required: true)
         self.user.update_attribute(:name, new_username)
-        system "clear"
         puts "Your username has been updated!"
         sleep 1.5
         profile_setup
@@ -355,6 +380,8 @@ class Interface
     #************Updating Password***************>
 
     def change_password_prompt #Done
+        system 'clear'
+        OrderHere.header
         prompt.select("Please confirm you are editing your password") do |menu|
             menu.choice "Yes", -> {change_password}
             menu.choice "No", -> {profile_setup}
@@ -363,6 +390,7 @@ class Interface
 
     def change_password #Done
         system "clear"
+        OrderHere.header
         new_password = @prompt.mask("Enter a new password", required: true)
         self.user.update_attribute(:password, new_password)
         system "clear"
@@ -373,6 +401,8 @@ class Interface
     #*****************Deleting***************>
 
     def delete_profile_prompt #Done
+        system 'clear'
+        OrderHere.header
         prompt.select("Are you sure you want to delete your profile?") do |menu|
             menu.choice "Yes", -> {delete_profile}
             menu.choice "No", -> {profile_setup}
@@ -380,9 +410,9 @@ class Interface
     end
 
     def delete_profile #Done
-        system 'clear'
         self.user.delete
         system 'clear'
+        OrderHere.header
         puts "You've succesfully deleted your profile"
         sleep 1
         puts "Sorry to see you leave"
@@ -392,6 +422,8 @@ class Interface
 
     #*****************Logout***************>
     def sign_out_prompt #Done
+        system 'clear'
+        OrderHere.header
         prompt.select("Are you sure you want to sign out?") do |menu|
             menu.choice "Yes", -> {sign_out}
             menu.choice "No", -> {profile_setup}
@@ -400,6 +432,7 @@ class Interface
 
     def sign_out #Done
         system "clear"
+        OrderHere.header
         puts ""
         puts "Thank you for ordering with Foodies"
         sleep 1
