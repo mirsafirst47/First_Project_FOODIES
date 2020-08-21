@@ -1,6 +1,6 @@
 <h1>FOODIES CLI APP</h1>
 
-"FOODIES" is a CLI application that allows users to place orders at restaurants. Users are able to create, login, and manage their account,place an order with a restaurant, and checkout.
+"FOODIES" is a CLI application that allows users to place orders at restaurants. Users are able to create, login, and manage their account, place an order with a restaurant, and checkout.
 
 The app features a welcome display which prompt users to login, or sign up for a new account. The users are then taken to the main menu where the options are to manage their account, place an order, or exit the app.
 
@@ -18,7 +18,7 @@ This app was developed for Flatiron School’s mod1 pairing project to demonstra
 4. Run 'rake db:migrate' to create the required database tables.
 5. Run 'rake db:migrate:status' to make sure the tables were created.
 6. Run 'rake db:seed' to seed your table(dummy seeds created with 'faker' gem). 
-7. Run 'ruby bin/run.rb' to start the app 
+7. Run 'rake start' to start the app 
 8. Enjoy the app 😁
 
 
